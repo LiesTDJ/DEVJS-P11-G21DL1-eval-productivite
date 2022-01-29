@@ -1,18 +1,19 @@
-window.addEventListener('DOMContentLoaded',()=>{
+window.addEventListener('DOMContentLoaded', ()=>{
   /**
    * A place where the options chosen appears
-   * @type {Object} 
+   * @type {Object}
    */
-  const pokeP=document.getElementById('pokeInfo')
+  const pokeP=document.getElementById('pokeInfo');
   /**
    * The div containing pokeP
-   * @type {Object} */
-  const pokeDiv=document.getElementById('pokemon-info')
+   * @type {Object}
+   */
+  const pokeDiv=document.getElementById('pokemon-info');
   /**
    * A button to chose the ability of the Pokemon
-   * @type {Object} 
+   * @type {Object}
    */
-  const pokeAbilityBtn=document.getElementById('ability')
+  const pokeAbilityBtn=document.getElementById('ability');
   /**
    * An asynchrone function to fetch the Pokemon's name
    *
@@ -20,119 +21,138 @@ window.addEventListener('DOMContentLoaded',()=>{
   const fetchPokemon=async ()=>{
     /**
      * A random number generator to choose witch Pokemon to fetch
-     * @type {Number} 
+     * @type {Number}
      */
-    const pokedexNum=Math.floor(Math.random() * 897)
+    const pokedexNum=Math.floor(Math.random() * 897);
     /**
-     * A variable to catch the response 
-     * @type {Objet} 
+     * A variable to catch the response
+     * @type {Objet}
      */
-    let foundPokemon=''
+    let foundPokemon='';
     /**
      * An object that contains the Pokemon info from the response
-     * @type {Object} 
+     * @type {Object}
      */
-    let jsonPokemon=''
+    let jsonPokemon='';
     /**
      * An object that contains the Pokemon's name to display
-     * @type {Object} 
+     * @type {Object}
      * */
-    const pokeInfo={}
+    const pokeInfo={};
 
-    try{
-      foundPokemon=await fetch(`https://pokeapi.co/api/v2/pokemon/${pokedexNum}`, {method: 'GET', headers: {'Content-Type': 'application/json'}})
+    try {
+      foundPokemon=await fetch(`https://pokeapi.co/api/v2/pokemon/${pokedexNum}`, {method: 'GET', headers: {'Content-Type': 'application/json'}});
+    } catch (error) {
+      console.error(error.message);
     }
-    catch(error){console.error(error.message)}
 
-    if(foundPokemon){
-      try{
-        jsonPokemon=await foundPokemon.json()
-        pokeInfo.name=`${String(jsonPokemon.species.name).slice(0, 1).toUpperCase()}${String(jsonPokemon.species.name).slice(1, jsonPokemon.species.name.length).toLowerCase()}`
+    if (foundPokemon) {
+      try {
+        jsonPokemon=await foundPokemon.json();
+        pokeInfo.name=
+        `${String(jsonPokemon.species.name).slice(0, 1).toUpperCase()}
+        ${String(jsonPokemon.species.name)
+      .slice(1, jsonPokemon.species.name.length)
+      .toLowerCase()}`;
+      } catch (error) {
+        console.error(error.message);
       }
-      catch(error){console.error(error.message)}
-
+    } else {
+      jsonPokemon='No Pokémon found...';
     }
-    else{jsonPokemon='No Pokémon found...'}
 
-    if(pokeP.innerText !== ''){pokeP.innerText=''}
-    pokeP.innerText=`Your Pokémon is ${pokeInfo.name}.`
-    pokeAbilityBtn.removeAttribute('disabled')
-  }
+    if (pokeP.innerText !== '') {
+      pokeP.innerText='';
+    }
+    pokeP.innerText=`Your Pokémon is ${pokeInfo.name}.`;
+    pokeAbilityBtn.removeAttribute('disabled');
+  };
 
   /**
    * An asynchrone function to fetch the Pokemon's ability
    *
    */
-  const fetchPokemonAbilities=async()=>{
+  const fetchPokemonAbilities=async ()=>{
     /**
      * A random number generator to choose witch Pokemon's ability to fetch
-     * @type {Number} 
+     * @type {Number}
      */
-    const pokedexNum=Math.floor(Math.random() * 266)
+    const pokedexNum=Math.floor(Math.random() * 266);
     /**
-     * A variable to catch the response 
-     * @type {Objet} 
+     * A variable to catch the response
+     * @type {Objet}
      */
-    let foundAbilities=''
+    let foundAbilities='';
     /**
-     * The paragraph where the ability is displayed 
-     * @type {Object} 
+     * The paragraph where the ability is displayed
+     * @type {Object}
      */
-    const pokeAbility=document.getElementById('pokeAbility')
+    const pokeAbility=document.getElementById('pokeAbility');
     /**
      * An object that contains the ability's info from the response
-     * @type {Object} 
+     * @type {Object}
      */
-    let jsonAbilities={}
+    let jsonAbilities={};
     /**
      * An object that contains the ability's name to display
-     * @type {Object} 
+     * @type {Object}
      * */
-    let abilityToDisplay=''
+    let abilityToDisplay='';
     try {
-      foundAbilities=await fetch(`https://pokeapi.co/api/v2/ability/${pokedexNum}`, {method: 'GET', headers: {'Content-Type': 'application/json'}})
+      foundAbilities=await fetch(`https://pokeapi.co/api/v2/ability/${pokedexNum}`, {method: 'GET', headers: {'Content-Type': 'application/json'}});
+    } catch (error) {
+      console.error(error.message);
     }
-    catch(error){console.error(error.message)}
 
-    if(foundAbilities){
-      try{
+    if (foundAbilities) {
+      try {
         jsonAbilities=await foundAbilities.json();
-        if('' !== jsonAbilities.name && undefined !== jsonAbilities.name){
-          abilityToDisplay=`${String(jsonAbilities.name).slice(0, 1).toUpperCase()}${String(jsonAbilities.name).slice(1, jsonAbilities.name.length).toLowerCase()}`
+        if ('' !== jsonAbilities.name && undefined !== jsonAbilities.name) {
+          abilityToDisplay=
+          `${String(jsonAbilities.name)
+              .slice(0, 1)
+              .toUpperCase()}
+          ${String(jsonAbilities.name)
+      .slice(1, jsonAbilities.name.length)
+      .toLowerCase()}`;
+        } else {
+          abilityToDisplay='Tackle';
         }
-        else{abilityToDisplay='Tackle'}
+      } catch (error) {
+        console.error(error.message);
       }
-      catch(error){console.error(error.message)}
-
+    } else {
+      jsonAbilities='No ability found...';
     }
-    else{jsonAbilities='No ability found...'}
 
-    if(pokeAbility.innerText !== ''){pokeAbility.innerText=''}
+    if (pokeAbility.innerText !== '') {
+      pokeAbility.innerText='';
+    }
 
-    pokeAbility.innerText=`It now knows the move ${abilityToDisplay}!`
-  }
-  
+    pokeAbility.innerText=`It now knows the move ${abilityToDisplay}!`;
+  };
+
   /**
    * Add an event listener to the pokemon button
    *
    */
   const invoquePokemon=()=>{
-    const pokeBtn=document.getElementById('pokemon')
-    pokeBtn.addEventListener('click', fetchPokemon)
-    pokeDiv.appendChild(pokeP)
-  }
+    const pokeBtn=document.getElementById('pokemon');
+    pokeBtn.addEventListener('click', fetchPokemon);
+    pokeDiv.appendChild(pokeP);
+  };
 
   /**
    * Add an event listener to the battle ability button
    *
    */
   const pokemonAbility=()=>{
-    pokeAbilityBtn.addEventListener('click', fetchPokemonAbilities)
-    pokeDiv.appendChild(pokeAbility)
-  }
-  
-  (function startAll(){
-    invoquePokemon()
-    pokemonAbility()
-  })()
-})
+    pokeAbilityBtn.addEventListener('click', fetchPokemonAbilities);
+    pokeDiv.appendChild(pokeAbility);
+  };
+
+  (function startAll() {
+    invoquePokemon();
+    pokemonAbility();
+  })();
+});
