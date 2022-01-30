@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: main.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,54 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: main.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {fetchPokemon} from './fetchPokemon.js';
+import {pokeP} from './fetchPokemon.js';
+import {pokeAbilityBtn} from './fetchPokemon.js';
+import {fetchPokemonAbilities} from './fetchAbility.js';
 
+/**
+  * The div containing pokeP
+  * @type {Object}
+  */
+const pokeDiv = document.getElementById('pokemon-info');
 
-    <h3> </h3>
+window.addEventListener('DOMContentLoaded', () => {
+  /**
+   * Add an event listener to the pokemon button
+   *
+   */
+  const invoquePokemon = () => {
+    const pokeBtn = document.getElementById('pokemon');
+    pokeBtn.addEventListener('click', fetchPokemon);
+    pokeDiv.appendChild(pokeP);
+  };
 
+  /**
+   * Add an event listener to the battle ability button
+   *
+   */
+  const pokemonAbility = () => {
+    pokeAbilityBtn.addEventListener('click', fetchPokemonAbilities);
+    pokeDiv.appendChild(pokeAbility);
+  };
 
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+  (function startAll() {
+    invoquePokemon();
+    pokemonAbility();
+  })();
+});
+</code></pre>
+        </article>
+    </section>
 
 
 
